@@ -4,5 +4,6 @@ namespace App;
 
 class Player
 {
-    public const X = 'x';
+    public const X = 'X';
+    public const O = 'O';
 }
