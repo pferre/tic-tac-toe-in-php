@@ -4,11 +4,13 @@ namespace App;
 
 class Game
 {
+    private Board $board;
     private string $status;
     private ?string $lastPlayer;
 
-    public function __construct(string $status = Status::GAME_ON, ?string $lastPlayer = null)
+    public function __construct(Board $board, string $status = Status::GAME_ON, ?string $lastPlayer = null)
     {
+        $this->board = $board;
         $this->status = $status;
         $this->lastPlayer = $lastPlayer;
     }
@@ -18,9 +20,13 @@ class Game
         return new GameState($this->status, $this->nextPlayer());
     }
 
-    public function play(): Game
+    public function play(string $square): Game
     {
-        return new Game(Status::GAME_ON, $this->nextPlayer());
+        if ($this->board->isAlreadyUsed($square)) {
+            return new Game($this->board, Status::POSITION_ALREADY_TAKEN, $this->lastPlayer);
+        }
+
+        return new Game($this->board->use($square), Status::GAME_ON, $this->nextPlayer());
     }
 
     private function nextPlayer(): string

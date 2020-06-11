@@ -4,5 +4,7 @@ namespace App;
 
 class Status
 {
-    public const GAME_ON = 'game.on';
+    public const GAME_ON = 'on';
+
+    public const POSITION_ALREADY_TAKEN = 'positionTaken';
 }
