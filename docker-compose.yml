@@ -1,0 +1,11 @@
+version: '3'
+services:
+  app:
+    container_name: tic_tac_toe
+    build: .
+    volumes:
+      - .:/usr/src/app
+    tty: true
+    stdin_open: true
+  php:
+    image: "php:7.4-alpine"

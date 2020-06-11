@@ -1,0 +1,24 @@
+{
+    "name": "pferre/tic-tac-toe-in-php",
+    "description": "Kata",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Pierre Ferré",
+            "email": "pierre@pierreferre.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.2"
+    }
+}
