@@ -5,21 +5,30 @@ namespace App;
 class Game
 {
     private string $status;
-    private string $nextPlayer;
+    private ?string $lastPlayer;
 
-    public function __construct(string $status = Status::GAME_ON, string $nextPlayer = Player::X)
+    public function __construct(string $status = Status::GAME_ON, ?string $lastPlayer = null)
     {
         $this->status = $status;
-        $this->nextPlayer = $nextPlayer;
+        $this->lastPlayer = $lastPlayer;
     }
 
     public function state(): GameState
     {
-        return new GameState($this->status, $this->nextPlayer);
+        return new GameState($this->status, $this->nextPlayer());
     }
 
     public function play(): Game
     {
-        return new Game(Status::GAME_ON, Player::O);
+        return new Game(Status::GAME_ON, $this->nextPlayer());
+    }
+
+    private function nextPlayer(): string
+    {
+        if ($this->lastPlayer === null) {
+            return Player::X;
+        }
+
+        return $this->lastPlayer === Player::X ? Player::O : Player::X;
     }
 }

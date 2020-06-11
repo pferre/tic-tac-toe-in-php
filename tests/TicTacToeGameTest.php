@@ -24,9 +24,21 @@ class TicTacToeGameTest extends TestCase
      */
     public function player_O_goes_next(): void
     {
-        $game = new Game(Status::GAME_ON, Player::X);
+        $game = new Game(Status::GAME_ON, null);
         $game = $game->play();
 
         $this->assertEquals($game->state(), new GameState(Status::GAME_ON, Player::O));
+    }
+
+    /**
+     * @test
+     */
+    public function players_alternate_positions(): void
+    {
+        $game = new Game(Status::GAME_ON, null);
+        $game = $game->play();
+        $game = $game->play();
+
+        $this->assertEquals($game->state(), new GameState(Status::GAME_ON, Player::X));
     }
 }
