@@ -15,7 +15,7 @@ class TicTacToeGameTest extends TestCase
      */
     public function player_X_always_goes_first(): void
     {
-        $game = new Game(Status::GAME_ON, Player::X);
+        $game = new Game();
         $this->assertEquals($game->state(), new GameState(Status::GAME_ON, Player::X));
     }
 
