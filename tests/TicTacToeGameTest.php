@@ -51,8 +51,9 @@ class TicTacToeGameTest extends TestCase
     {
         $game = new Game(new Board(), Status::GAME_ON, null);
         $game = $game->play(Square::TOP_LEFT);
+        $game = $game->play(Square::TOP_MIDDLE);
         $game = $game->play(Square::TOP_LEFT);
 
-        $this->assertEquals($game->state(), new GameState(Status::POSITION_ALREADY_TAKEN, Player::O));
+        $this->assertEquals($game->state(), new GameState(Status::POSITION_ALREADY_TAKEN, Player::X));
     }
 }
