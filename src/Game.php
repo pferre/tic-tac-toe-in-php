@@ -11,12 +11,16 @@ class Game
     public function __construct(Board $board, string $status = Status::GAME_ON, ?string $lastPlayer = null)
     {
         $this->board = $board;
-        $this->status = $status;
+        $this->board->isFull() ? $this->status = Status::DRAW : $this->status = $status;
         $this->lastPlayer = $lastPlayer;
     }
 
     public function state(): GameState
     {
+        if ($this->status === Status::DRAW) {
+            return new GameState($this->status);
+        }
+
         return new GameState($this->status, $this->nextPlayer());
     }
 
@@ -29,7 +33,7 @@ class Game
         return new Game($this->board->use($square), Status::GAME_ON, $this->nextPlayer());
     }
 
-    private function nextPlayer(): string
+    private function nextPlayer(): ?string
     {
         if ($this->lastPlayer === null) {
             return Player::X;

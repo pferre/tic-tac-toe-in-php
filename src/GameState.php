@@ -5,9 +5,9 @@ namespace App;
 class GameState
 {
     private string $status;
-    private string $nextPlayer;
+    private ?string $nextPlayer;
 
-    public function __construct(string $status, string $nextPlayer)
+    public function __construct(string $status, ?string $nextPlayer = null)
     {
         $this->status = $status;
         $this->nextPlayer = $nextPlayer;

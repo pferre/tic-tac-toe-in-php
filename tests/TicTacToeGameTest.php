@@ -56,4 +56,24 @@ class TicTacToeGameTest extends TestCase
 
         $this->assertEquals($game->state(), new GameState(Status::POSITION_ALREADY_TAKEN, Player::X));
     }
+
+    /**
+     * @test
+     */
+    public function ends_in_draw(): void
+    {
+        $game = new Game(new Board(), Status::GAME_ON, null);
+
+        $game = $game->play(Square::TOP_LEFT);//x
+        $game = $game->play(Square::TOP_MIDDLE);//o
+        $game = $game->play(Square::TOP_RIGHT);//x
+        $game = $game->play(Square::MIDDLE_LEFT);//o
+        $game = $game->play(Square::MIDDLE_MIDDLE);//x
+        $game = $game->play(Square::BOTTOM_RIGHT);//o
+        $game = $game->play(Square::MIDDLE_RIGHT);//x
+        $game = $game->play(Square::BOTTOM_LEFT);//o
+        $game = $game->play(Square::BOTTOM_MIDDLE);//x
+
+        $this->assertEquals($game->state(), new GameState(Status::DRAW));
+    }
 }

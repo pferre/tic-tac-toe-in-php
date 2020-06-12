@@ -13,7 +13,7 @@ class Board
 
     public function isAlreadyUsed(string $square): bool
     {
-        return in_array($square, $this->takenSquares, false);
+        return in_array($square, $this->takenSquares, true);
     }
 
     public function use(string $square): Board
@@ -35,5 +35,10 @@ class Board
     {
         $newSquares[] = $square;
         return $newSquares;
+    }
+
+    public function isFull(): bool
+    {
+        return count($this->takenSquares) === 9;
     }
 }
