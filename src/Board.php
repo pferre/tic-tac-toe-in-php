@@ -6,9 +6,12 @@ class Board
 {
     private array $takenSquares;
 
+    private WinningConditions $winConditions;
+
     public function __construct(array $takenSquares = [])
     {
         $this->takenSquares = $takenSquares;
+        $this->winConditions = new WinningConditions($this->takenSquares);
     }
 
     public function isAlreadyUsed(string $square): bool
@@ -19,6 +22,16 @@ class Board
     public function use(string $square): Board
     {
         return new Board($this->newSquares($square));
+    }
+
+    public function isFull(): bool
+    {
+        return count($this->takenSquares) === 9;
+    }
+
+    public function winningCondition(): bool
+    {
+        return $this->winConditions->has();
     }
 
     private function newSquares($square): array
@@ -35,10 +48,5 @@ class Board
     {
         $newSquares[] = $square;
         return $newSquares;
-    }
-
-    public function isFull(): bool
-    {
-        return count($this->takenSquares) === 9;
     }
 }

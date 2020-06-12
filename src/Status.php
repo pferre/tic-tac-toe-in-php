@@ -9,4 +9,8 @@ class Status
     public const POSITION_ALREADY_TAKEN = 'positionTaken';
 
     public const DRAW = 'draw';
+
+    public const X_WIN = 'x.win';
+
+    public const O_WINS = 'o.win';
 }

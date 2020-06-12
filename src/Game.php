@@ -11,13 +11,21 @@ class Game
     public function __construct(Board $board, string $status = Status::GAME_ON, ?string $lastPlayer = null)
     {
         $this->board = $board;
-        $this->board->isFull() ? $this->status = Status::DRAW : $this->status = $status;
+
+        if ($this->board->isFull()) {
+            $this->status = Status::DRAW;
+        } elseif($this->board->winningCondition()) {
+            $this->status = Status::X_WIN;
+        } else {
+            $this->status = $status;
+        }
+
         $this->lastPlayer = $lastPlayer;
     }
 
     public function state(): GameState
     {
-        if ($this->status === Status::DRAW) {
+        if ($this->status === Status::DRAW || $this->status === Status::X_WIN) {
             return new GameState($this->status);
         }
 

@@ -64,16 +64,102 @@ class TicTacToeGameTest extends TestCase
     {
         $game = new Game(new Board(), Status::GAME_ON, null);
 
-        $game = $game->play(Square::TOP_LEFT);//x
-        $game = $game->play(Square::TOP_MIDDLE);//o
-        $game = $game->play(Square::TOP_RIGHT);//x
-        $game = $game->play(Square::MIDDLE_LEFT);//o
-        $game = $game->play(Square::MIDDLE_MIDDLE);//x
-        $game = $game->play(Square::BOTTOM_RIGHT);//o
-        $game = $game->play(Square::MIDDLE_RIGHT);//x
-        $game = $game->play(Square::BOTTOM_LEFT);//o
-        $game = $game->play(Square::BOTTOM_MIDDLE);//x
+        $game = $game->play(Square::TOP_LEFT);
+        $game = $game->play(Square::TOP_MIDDLE);
+        $game = $game->play(Square::TOP_RIGHT);
+        $game = $game->play(Square::CENTER_LEFT);
+        $game = $game->play(Square::CENTER_MIDDLE);
+        $game = $game->play(Square::BOTTOM_RIGHT);
+        $game = $game->play(Square::CENTER_RIGHT);
+        $game = $game->play(Square::BOTTOM_LEFT);
+        $game = $game->play(Square::BOTTOM_MIDDLE);
 
         $this->assertEquals($game->state(), new GameState(Status::DRAW));
+    }
+
+    /**
+     * @dataProvider gameSequenceDataProvider
+     * @test
+     * @param array $gameSequence
+     */
+    public function x_wins(string ...$gameSequence): void
+    {
+        $game = new Game(new Board(), Status::GAME_ON, null);
+
+        foreach ($gameSequence as $square) {
+            $game = $game->play($square);
+        }
+
+        $this->assertEquals($game->state(), new GameState(Status::X_WIN));
+    }
+
+    public function gameSequenceDataProvider(): array
+    {
+        return [
+//            //Vertical left
+            [
+                Square::TOP_LEFT,
+                Square::TOP_MIDDLE,
+                Square::CENTER_LEFT,
+                Square::CENTER_MIDDLE,
+                Square::BOTTOM_LEFT
+            ],
+//            //Vertical middle
+            [
+                Square::TOP_MIDDLE,
+                Square::TOP_LEFT,
+                Square::CENTER_MIDDLE,
+                Square::CENTER_LEFT,
+                Square::BOTTOM_MIDDLE
+            ],
+//            //Vertical right
+            [
+                Square::TOP_RIGHT,
+                Square::TOP_LEFT,
+                Square::CENTER_RIGHT,
+                Square::CENTER_LEFT,
+                Square::BOTTOM_RIGHT
+            ],
+            //Horizontal top
+            [
+                Square::TOP_RIGHT,
+                Square::BOTTOM_LEFT,
+                Square::TOP_MIDDLE,
+                Square::CENTER_LEFT,
+                Square::TOP_LEFT
+            ],
+            //Horizontal middle
+            [
+                Square::CENTER_LEFT,
+                Square::TOP_RIGHT,
+                Square::CENTER_RIGHT,
+                Square::BOTTOM_RIGHT,
+                Square::CENTER_MIDDLE
+            ],
+            //Horizontal bottom
+            [
+                Square::BOTTOM_RIGHT,
+                Square::CENTER_MIDDLE,
+                Square::BOTTOM_LEFT,
+                Square::CENTER_LEFT,
+                Square::BOTTOM_MIDDLE
+            ],
+            //Diagonal left to right
+            [
+                Square::TOP_LEFT,
+                Square::BOTTOM_LEFT,
+                Square::CENTER_MIDDLE,
+                Square::CENTER_LEFT,
+                Square::BOTTOM_RIGHT
+            ],
+            //Diagonal right to left
+            [
+                Square::TOP_RIGHT,
+                Square::BOTTOM_RIGHT,
+                Square::CENTER_MIDDLE,
+                Square::BOTTOM_MIDDLE,
+                Square::BOTTOM_LEFT
+            ]
+        ];
     }
 }

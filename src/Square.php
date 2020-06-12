@@ -10,11 +10,11 @@ class Square
 
     public const TOP_RIGHT = 'top.right';
 
-    public const MIDDLE_LEFT = 'middle.left';
+    public const CENTER_LEFT = 'center.left';
 
-    public const MIDDLE_MIDDLE = 'middle.middle';
+    public const CENTER_MIDDLE = 'center.middle';
 
-    public const MIDDLE_RIGHT = 'middle.right';
+    public const CENTER_RIGHT = 'center.right';
 
     public const BOTTOM_LEFT = 'bottom.left';
 
