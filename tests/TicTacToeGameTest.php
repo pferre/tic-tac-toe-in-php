@@ -69,9 +69,9 @@ class TicTacToeGameTest extends TestCase
         $game = $game->play(Square::TOP_RIGHT);
         $game = $game->play(Square::CENTER_LEFT);
         $game = $game->play(Square::CENTER_MIDDLE);
-        $game = $game->play(Square::BOTTOM_RIGHT);
-        $game = $game->play(Square::CENTER_RIGHT);
         $game = $game->play(Square::BOTTOM_LEFT);
+        $game = $game->play(Square::CENTER_RIGHT);
+        $game = $game->play(Square::BOTTOM_RIGHT);
         $game = $game->play(Square::BOTTOM_MIDDLE);
 
         $this->assertEquals($game->state(), new GameState(Status::DRAW));
@@ -82,7 +82,7 @@ class TicTacToeGameTest extends TestCase
      * @test
      * @param array $gameSequence
      */
-    public function x_wins(string ...$gameSequence): void
+    public function X_WINS(string ...$gameSequence): void
     {
         $game = new Game(new Board(), Status::GAME_ON, null);
 
@@ -90,13 +90,30 @@ class TicTacToeGameTest extends TestCase
             $game = $game->play($square);
         }
 
-        $this->assertEquals($game->state(), new GameState(Status::X_WIN));
+        $this->assertEquals($game->state(), new GameState(Status::X_WINS));
+    }
+
+    /**
+     * @test
+     */
+    public function o_wins(): void
+    {
+        $game = new Game(new Board(), Status::GAME_ON, null);
+
+        $game = $game->play(Square::TOP_RIGHT);
+        $game = $game->play(Square::TOP_LEFT);
+        $game = $game->play(Square::TOP_MIDDLE);
+        $game = $game->play(Square::CENTER_LEFT);
+        $game = $game->play(Square::CENTER_MIDDLE);
+        $game = $game->play(Square::BOTTOM_LEFT);
+
+        $this->assertEquals($game->state(), new GameState(Status::O_WINS));
     }
 
     public function gameSequenceDataProvider(): array
     {
         return [
-//            //Vertical left
+            //Vertical left
             [
                 Square::TOP_LEFT,
                 Square::TOP_MIDDLE,
@@ -104,7 +121,7 @@ class TicTacToeGameTest extends TestCase
                 Square::CENTER_MIDDLE,
                 Square::BOTTOM_LEFT
             ],
-//            //Vertical middle
+            //Vertical middle
             [
                 Square::TOP_MIDDLE,
                 Square::TOP_LEFT,
@@ -112,7 +129,7 @@ class TicTacToeGameTest extends TestCase
                 Square::CENTER_LEFT,
                 Square::BOTTOM_MIDDLE
             ],
-//            //Vertical right
+            //Vertical right
             [
                 Square::TOP_RIGHT,
                 Square::TOP_LEFT,

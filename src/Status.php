@@ -10,7 +10,7 @@ class Status
 
     public const DRAW = 'draw';
 
-    public const X_WIN = 'x.win';
+    public const X_WINS = 'x.win';
 
     public const O_WINS = 'o.win';
 }

@@ -12,20 +12,20 @@ class Game
     {
         $this->board = $board;
 
+        $this->lastPlayer = $lastPlayer;
+
         if ($this->board->isFull()) {
             $this->status = Status::DRAW;
         } elseif($this->board->winningCondition()) {
-            $this->status = Status::X_WIN;
+            $this->status = $lastPlayer === Player::X ? Status::X_WINS : Status::O_WINS;
         } else {
             $this->status = $status;
         }
-
-        $this->lastPlayer = $lastPlayer;
     }
 
     public function state(): GameState
     {
-        if ($this->status === Status::DRAW || $this->status === Status::X_WIN) {
+        if ($this->status === Status::DRAW || $this->status === Status::X_WINS || $this->status === Status::O_WINS) {
             return new GameState($this->status);
         }
 
@@ -41,7 +41,7 @@ class Game
         return new Game($this->board->use($square), Status::GAME_ON, $this->nextPlayer());
     }
 
-    private function nextPlayer(): ?string
+    private function nextPlayer(): string
     {
         if ($this->lastPlayer === null) {
             return Player::X;
