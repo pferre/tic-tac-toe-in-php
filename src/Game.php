@@ -25,7 +25,7 @@ class Game
 
     public function state(): GameState
     {
-        if ($this->status === Status::DRAW || $this->status === Status::X_WINS || $this->status === Status::O_WINS) {
+        if ($this->gameOver()) {
             return new GameState($this->status);
         }
 
@@ -34,6 +34,10 @@ class Game
 
     public function play(string $square): Game
     {
+        if ($this->gameOver()) {
+            return $this;
+        }
+
         if ($this->board->isAlreadyUsed($square)) {
             return new Game($this->board, Status::POSITION_ALREADY_TAKEN, $this->lastPlayer);
         }
@@ -48,5 +52,10 @@ class Game
         }
 
         return $this->lastPlayer === Player::X ? Player::O : Player::X;
+    }
+
+    private function gameOver(): bool
+    {
+        return $this->status === Status::DRAW || $this->status === Status::X_WINS || $this->status === Status::O_WINS;
     }
 }

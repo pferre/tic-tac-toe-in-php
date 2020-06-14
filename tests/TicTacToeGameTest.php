@@ -18,7 +18,7 @@ class TicTacToeGameTest extends TestCase
     public function player_X_always_goes_first(): void
     {
         $game = new Game(new Board());
-        $this->assertEquals($game->state(), new GameState(Status::GAME_ON, Player::X));
+        $this->assertEquals(new GameState(Status::GAME_ON, Player::X), $game->state());
     }
 
     /**
@@ -29,7 +29,7 @@ class TicTacToeGameTest extends TestCase
         $game = new Game(new Board(), Status::GAME_ON, null);
         $game = $game->play(Square::TOP_LEFT);
 
-        $this->assertEquals($game->state(), new GameState(Status::GAME_ON, Player::O));
+        $this->assertEquals(new GameState(Status::GAME_ON, Player::O), $game->state());
     }
 
     /**
@@ -41,7 +41,7 @@ class TicTacToeGameTest extends TestCase
         $game = $game->play(Square::TOP_LEFT);
         $game = $game->play(Square::TOP_MIDDLE);
 
-        $this->assertEquals($game->state(), new GameState(Status::GAME_ON, Player::X));
+        $this->assertEquals(new GameState(Status::GAME_ON, Player::X), $game->state());
     }
 
     /**
@@ -54,7 +54,7 @@ class TicTacToeGameTest extends TestCase
         $game = $game->play(Square::TOP_MIDDLE);
         $game = $game->play(Square::TOP_LEFT);
 
-        $this->assertEquals($game->state(), new GameState(Status::POSITION_ALREADY_TAKEN, Player::X));
+        $this->assertEquals(new GameState(Status::POSITION_ALREADY_TAKEN, Player::X), $game->state());
     }
 
     /**
@@ -74,7 +74,7 @@ class TicTacToeGameTest extends TestCase
         $game = $game->play(Square::BOTTOM_RIGHT);
         $game = $game->play(Square::BOTTOM_MIDDLE);
 
-        $this->assertEquals($game->state(), new GameState(Status::DRAW));
+        $this->assertEquals(new GameState(Status::DRAW), $game->state());
     }
 
     /**
@@ -82,15 +82,15 @@ class TicTacToeGameTest extends TestCase
      * @test
      * @param array $gameSequence
      */
-    public function X_WINS(string ...$gameSequence): void
+    public function x_wins(string ...$gameSequence): void
     {
         $game = new Game(new Board(), Status::GAME_ON, null);
 
         foreach ($gameSequence as $square) {
             $game = $game->play($square);
         }
-
-        $this->assertEquals($game->state(), new GameState(Status::X_WINS));
+        
+        $this->assertEquals(new GameState(Status::X_WINS), $game->state());
     }
 
     /**
@@ -107,7 +107,30 @@ class TicTacToeGameTest extends TestCase
         $game = $game->play(Square::CENTER_MIDDLE);
         $game = $game->play(Square::BOTTOM_LEFT);
 
-        $this->assertEquals($game->state(), new GameState(Status::O_WINS));
+        $this->assertEquals(new GameState(Status::O_WINS), $game->state());
+    }
+
+    /**
+     * //x o x
+     * //o x o
+     * //o x x
+     * @test
+     */
+    public function make_sure_game_ends_after_win_is_reached(): void
+    {
+        $game = new Game(new Board(), Status::GAME_ON, null);
+
+        $game = $game->play(Square::TOP_LEFT);
+        $game = $game->play(Square::TOP_MIDDLE);
+        $game = $game->play(Square::TOP_RIGHT);
+        $game = $game->play(Square::CENTER_LEFT);
+        $game = $game->play(Square::CENTER_MIDDLE);
+        $game = $game->play(Square::BOTTOM_LEFT);
+        $game = $game->play(Square::CENTER_RIGHT);
+        $game = $game->play(Square::BOTTOM_MIDDLE);
+        $game = $game->play(Square::BOTTOM_RIGHT);
+
+        $this->assertEquals(new GameState(Status::X_WINS), $game->state());
     }
 
     public function gameSequenceDataProvider(): array
